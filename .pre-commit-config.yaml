@@ -1,0 +1,25 @@
+# Git pre-commit configuration file
+
+repos:
+  - repo: https://github.com/psf/black
+    rev: 24.3.0
+    hooks:
+      - id: black
+        files: ^(src|tests)/.*\.py$
+        exclude: ^\.venv/
+
+  - repo: https://github.com/PyCQA/flake8
+    rev: 6.1.0
+    hooks:
+      - id: flake8
+        files: ^(src|tests)/.*\.py$
+        exclude: ^\.venv/
+        args: [--max-line-length=88]
+
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.8.0
+    hooks:
+      - id: mypy
+        files: ^(src|tests)/.*\.py$
+        exclude: ^\.venv/
+        args: [--ignore-missing-imports]
