@@ -1,0 +1,15 @@
+=== 1. API 3개 동시 수집 ===
+수집 완료: weather=1, country=1, location=1
+
+=== 2. Pydantic v2 검증 ===
+검증 완료: weather=1, country=1, location=1
+
+=== 3. 사용자 활동 집계 ===
+집계 완료: 1건
+
+=== 4. CSV / Parquet 저장 및 성능 측정 ===
+CSV 저장 시간: 0.0000초
+Parquet 저장 시간: 0.0000초
+CSV 파일 크기: 6.36 KB
+Parquet 파일 크기: 6.77 KB
+

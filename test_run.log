@@ -1,0 +1,40 @@
+
+# pytest -v 
+============================= test session starts ==============================
+platform darwin -- Python 3.9.6, pytest-7.4.3, pluggy-1.6.0 -- /Users/chltmddn5843/Downloads/skala/4주차/판교_4반_최승우_practice/.venv/bin/python3
+cachedir: .pytest_cache
+rootdir: /Users/chltmddn5843/Downloads/skala/4주차/판교_4반_최승우_practice
+plugins: anyio-4.12.1, asyncio-0.21.1
+asyncio: mode=strict
+collected 8 items                                                                                                                                             
+
+tests/test_pipeline.py::test_fetch_weather PASSED                                                                                                       [ 12%]
+tests/test_pipeline.py::test_fetch_country PASSED                                                                                                       [ 25%]
+tests/test_pipeline.py::test_fetch_location PASSED                                                                                                      [ 37%]
+tests/test_pipeline.py::test_weather_model_validation PASSED                                                                                            [ 50%]
+tests/test_pipeline.py::test_country_model_validation PASSED                                                                                            [ 62%]
+tests/test_pipeline.py::test_save_to_csv PASSED                                                                                                         [ 75%]
+tests/test_pipeline.py::test_save_to_parquet PASSED                                                                                                     [ 87%]
+tests/test_pipeline.py::test_save_all PASSED                                                                                                            [100%]
+
+====================================================================== 8 passed in 0.52s ======================================================================
+
+# ruff check
+(.venv) ➜  판교_4반_최승우_practice git:(main) ✗ ruff check .
+(.venv) ➜  판교_4반_최승우_practice git:(main) ✗ ruff check .
+(.venv) ➜  판교_4반_최승우_practice git:(main) ✗ 
+
+
+# git log -- oneline
+
+659eadc (HEAD -> main, origin/main, origin/HEAD) Update test_pipeline.py
+1084a27 Update models.py
+c40d2c7 Update __init__.py
+4acb578 Update pipeline.py
+5972d72 Update __init__.py
+27a9843 Initial commit
+5ae3295 docs: 프로젝트 README 추가
+f3c7798 fix: API 수집 파이프라인 최적화
+330ec40 config: .gitignore에 .venv 추가
+ce9212b feat: API 데이터 수집 파이프라인 구현
+3550513 Initial commit
