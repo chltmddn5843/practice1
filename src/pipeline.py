@@ -52,7 +52,7 @@ class APICollector:
         RESTCountries API에서 한국 국가정보 수집
         Countries.dev 대신 공개 API 사용
         """
-        url = "https://restcountries.com/v3.1/alpha/kor"
+        url = "https://countries.dev/alpha/KOR"
         response = await client.get(url, timeout=10.0)
         response.raise_for_status()
         data = response.json()
