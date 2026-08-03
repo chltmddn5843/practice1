@@ -1,11 +1,23 @@
-cfgv==3.4.0
-distlib==0.4.3
-filelock==3.19.1
-identify==2.6.15
-nodeenv==1.10.0
-platformdirs==4.4.0
-pre_commit==4.3.0
-python-discovery==1.5.1
+# 비동기 HTTP 클라이언트
+httpx==0.25.2
+
+# 데이터 검증 및 직렬화
+pydantic==2.5.0
+
+# 데이터 처리 및 저장
+pandas==2.1.4
+pyarrow==14.0.1
+
+# 테스트
+pytest==7.4.3
+pytest-asyncio==0.21.1
+
+# 코드 스타일 검사
+ruff==0.1.8
+black==24.3.0
+flake8==6.1.0
+mypy==1.8.0
+
+# 기타 도구
+pre-commit==4.3.0
 PyYAML==6.0.3
-typing_extensions==4.16.0
-virtualenv==21.7.1

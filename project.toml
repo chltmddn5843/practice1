@@ -1,0 +1,16 @@
+# Ruff 설정 파일
+# 목적 : 코드 스타일과 품질을 유지하기 위해
+
+
+[tool.ruff]
+line-length = 88
+select = ['E', 'F', 'I', 'UP']
+ignore = ['E501']  # 긴줄무시
+[tool.ruff.format]
+quote-style = 'double'
+indent-style = 'spaces'
+indent-size = 4
+[tool.ruff.isort]
+profile = 'black'
+[tool.ruff.mypy]
+ignore-missing-imports = true

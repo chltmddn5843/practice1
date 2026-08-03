@@ -23,3 +23,10 @@ repos:
         files: ^(src|tests)/.*\.py$
         exclude: ^\.venv/
         args: [--ignore-missing-imports]
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.1.8
+    hooks:
+      - id: ruff
+        files: ^(src|tests)/.*\.py$
+        exclude: ^\.venv/
