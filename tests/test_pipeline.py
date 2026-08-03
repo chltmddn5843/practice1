@@ -34,16 +34,16 @@ def sample_weather_response():
 
 @pytest.fixture
 def sample_country_response():
-    """Countries.dev API 응답 예시"""
-    return {
-        "data": {
-            "name": "South Korea",
-            "alpha2": "KR",
+    """RESTCountries API 응답 예시"""
+    return [
+        {
+            "name": {"common": "South Korea", "official": "Republic of Korea"},
+            "cca2": "KR",
             "population": 51784059,
             "area": 100363.0,
             "region": "Asia",
         }
-    }
+    ]
 
 
 @pytest.fixture
@@ -95,7 +95,7 @@ async def test_fetch_country(collector, sample_country_response):
             result = await collector.fetch_country(client)
 
     assert isinstance(result, CountryInfo)
-    assert result.name == "South Korea"
+    assert result.name == "Republic of Korea"
     assert result.population == 51784059
 
 
@@ -149,10 +149,17 @@ def test_save_to_csv(
     sample_location_response,
 ):
     """CSV 저장 기능 테스트"""
+    country_data = sample_country_response[0]
     data = CollectedData(
         timestamp=datetime.now(),
         weather=WeatherForecast(**sample_weather_response),
-        country=CountryInfo(**sample_country_response["data"]),
+        country=CountryInfo(
+            name=country_data["name"]["official"],
+            code=country_data["cca2"],
+            population=country_data.get("population"),
+            area=country_data.get("area"),
+            region=country_data.get("region"),
+        ),
         location=LocationInfo(**sample_location_response),
     )
 
@@ -173,10 +180,17 @@ def test_save_to_parquet(
     sample_location_response,
 ):
     """Parquet 저장 기능 테스트"""
+    country_data = sample_country_response[0]
     data = CollectedData(
         timestamp=datetime.now(),
         weather=WeatherForecast(**sample_weather_response),
-        country=CountryInfo(**sample_country_response["data"]),
+        country=CountryInfo(
+            name=country_data["name"]["official"],
+            code=country_data["cca2"],
+            population=country_data.get("population"),
+            area=country_data.get("area"),
+            region=country_data.get("region"),
+        ),
         location=LocationInfo(**sample_location_response),
     )
 
@@ -192,10 +206,19 @@ def test_save_all(
     sample_location_response,
 ):
     """CSV와 Parquet 동시 저장 테스트"""
+    # sample_country_response는 배열 형식이므로 첫 번째 요소 사용
+    country_data = sample_country_response[0]
+
     data = CollectedData(
         timestamp=datetime.now(),
         weather=WeatherForecast(**sample_weather_response),
-        country=CountryInfo(**sample_country_response["data"]),
+        country=CountryInfo(
+            name=country_data["name"]["official"],
+            code=country_data["cca2"],
+            population=country_data.get("population"),
+            area=country_data.get("area"),
+            region=country_data.get("region"),
+        ),
         location=LocationInfo(**sample_location_response),
     )
 
@@ -206,7 +229,6 @@ def test_save_all(
     assert Path(result["csv"]["path"]).exists()
     assert Path(result["parquet"]["path"]).exists()
 
-    # 파일 크기 정보 (작은 데이터에서는 Parquet 오버헤드로 CSV가 더 작을 수 있음)
-    # 하지만 두 형식 모두 저장되었는지 확인
+    # 파일 저장 확인
     assert result["csv"]["size_kb"] > 0
     assert result["parquet"]["size_kb"] > 0

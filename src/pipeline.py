@@ -49,17 +49,23 @@ class APICollector:
 
     async def fetch_country(self, client: httpx.AsyncClient) -> CountryInfo:
         """
-        Countries.dev API에서 한국 국가정보 수집
+        RESTCountries API에서 한국 국가정보 수집
+        Countries.dev 대신 공개 API 사용
         """
-        url = "https://countries.dev/api/v1/countries/alpha/KOR"
+        url = "https://restcountries.com/v3.1/alpha/kor"
         response = await client.get(url, timeout=10.0)
         response.raise_for_status()
         data = response.json()
-        # API 응답 구조에 맞게 필드 추출
-        country_data = data.get("data", {})
+        # API 응답은 배열 형식
+        country_data = data[0] if isinstance(data, list) else data
+        common_name = country_data.get("name", {}).get("common", "South Korea")
+        official_name = country_data.get("name", {}).get(
+            "official", "Republic of Korea"
+        )
+
         return CountryInfo(
-            name=country_data.get("name"),
-            code=country_data.get("alpha2"),
+            name=official_name or common_name,
+            code=country_data.get("cca2", "KR"),
             population=country_data.get("population"),
             area=country_data.get("area"),
             region=country_data.get("region"),
@@ -80,7 +86,7 @@ class APICollector:
         모든 API를 비동기로 동시 요청
         asyncio.gather()로 병렬 처리: 순차 요청보다 훨씬 빠름
         """
-        async with httpx.AsyncClient() as client:
+        async with httpx.AsyncClient(follow_redirects=True) as client:
             # 세 개 API를 동시에 호출
             weather, country, location = await asyncio.gather(
                 self.fetch_weather(client),
