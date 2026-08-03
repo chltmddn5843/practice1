@@ -1,6 +1,17 @@
-# API 파이프라인 테스트
-# pytest를 사용한 단위 테스트로 각 기능 검증
-# mock으로 외부 API 호출을 대체해 테스트 속도 향상
+# 프로그램 전체 설명 및 변경 내역
+# -------------------
+# 작성자 : 최승우
+# 작성일 : 2026-08-03
+# 작성 목적
+# 1) API 파이프라인 테스트
+# 2) pytest를 사용한 단위 테스트로 각 기능 검증
+# 3) mock으로 외부 API 호출을 대체해 테스트 속도 향상
+#
+# 변경 내역
+# 26.08.03 / 최초 작성 / 전체 코드 작성
+#
+# -------------------
+
 
 from datetime import datetime
 from pathlib import Path
@@ -63,7 +74,7 @@ def sample_location_response():
 
 @pytest.fixture
 def collector(tmp_path):
-    """테스트용 수집기 생성 (임시 디렉터리 사용)"""
+    """테스트용 수집기 생성 (임시 디렉터리 설정)"""
     return APICollector(output_dir=str(tmp_path))
 
 
@@ -170,7 +181,7 @@ def test_save_to_csv(
     # 파일 내용 검증
     with open(filepath) as f:
         lines = f.readlines()
-    assert len(lines) == 4  # 헤더 + 3행
+    assert len(lines) == 4  # 헤더 추가
 
 
 def test_save_to_parquet(
