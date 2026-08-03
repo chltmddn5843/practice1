@@ -1,3 +1,14 @@
+# 프로그램 전체 설명 및 변경 내역
+# -------------------
+# 작성자 : 최승우
+# 작성 목적 : API 파이프라인 설계
+# 작성일 : 2026-08-03
+# 
+# 변경 내역
+# 26.08.03 / 최초 작성 / 전체 코드 작성
+#
+# -------------------
+
 # API 데이터 수집 파이프라인
 # asyncio + httpx를 사용한 비동기 병렬 요청으로 효율성 극대화
 # Pydantic v2로 응답 검증, CSV/Parquet으로 저장
@@ -17,16 +28,13 @@ from src.models import (
 )
 
 
+"""
+API 데이터 수집 및 저장 담당
+"""
+
 class APICollector:
-    """API 데이터 수집 및 저장 담당"""
 
     def __init__(self, output_dir: str = "data"):
-        """
-        출력 디렉터리 초기화
-
-        Args:
-            output_dir: 데이터 저장 경로
-        """
         self.output_dir = Path(output_dir)
         self.output_dir.mkdir(exist_ok=True)
 
@@ -192,24 +200,21 @@ class APICollector:
             },
         }
 
-
+"""메인 실행 함수"""
 async def main():
-    """메인 실행 함수"""
     collector = APICollector()
 
     print("🔄 API 데이터 수집 중...")
     data = await collector.collect_all()
 
-    print("✅ 데이터 수집 완료")
+    print("데이터 수집 완료")
     print(f"   - 타임스탬프: {data.timestamp}")
     print(f"   - 국가: {data.country.name}")
     print(f"   - 도시: {data.location.city}")
     print(f"   - 수집된 시간대 수: {len(data.weather.hourly.time)}")
-
-    print("\n💾 데이터 저장 중...")
     result = collector.save_all(data)
 
-    print("✅ 저장 완료")
+    print("저장 완료")
     print(f"   CSV: {result['csv']['path']} ({result['csv']['size_kb']:.2f} KB)")
     print(
         f"   Parquet: {result['parquet']['path']}"
@@ -220,7 +225,7 @@ async def main():
     csv_size = result["csv"]["size_kb"]
     parquet_size = result["parquet"]["size_kb"]
     compression_ratio = (1 - parquet_size / csv_size) * 100
-    print(f"\n📊 압축 효율: Parquet이 CSV 대비 {compression_ratio:.1f}% 더 작음")
+    print(f"\n 압축 효율: Parquet이 CSV 대비 {compression_ratio:.1f}% 더 작음")
 
 
 if __name__ == "__main__":
